@@ -1,0 +1,8 @@
+{
+  id: @first_recipe.id,
+  title: @first_recipe.title,
+  chef: @first_recipe.chef,
+  prep_time: @first_recipe.prep_time,
+  ingredients: @first_recipe.ingredients,
+  directions: @first_recipe.directions,
+}
