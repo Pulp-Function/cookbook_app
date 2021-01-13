@@ -1,12 +1,10 @@
-json = []
-index = 0
-while index < @recipes.length
-  recipe = @recipes[index]
-  json << {
+@recipes.map do |recipe|
+  {
     id: recipe.id,
-    mytitle: recipe.title,
+    title: recipe.title,
     chef: recipe.chef,
+    prep_time: recipe.prep_time,
+    ingredients: recipe.ingredients,
+    directions: recipe.directions,
   }
-  index += 1
 end
-return json
