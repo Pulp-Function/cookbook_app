@@ -3,4 +3,9 @@ class Api::RecipesController < ApplicationController
     @first_recipe = Recipe.first
     render "first_recipe.json.jb"
   end
+
+  def all_recipes_method
+    @recipes = Recipe.all
+    render "all_recipes.json.jb"
+  end
 end
