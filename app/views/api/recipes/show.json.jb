@@ -5,4 +5,9 @@
   prep_time: @recipe.prep_time,
   ingredients: @recipe.ingredients,
   directions: @recipe.directions,
+  formatted: {
+    ingredients: @recipe.ingredients_list,
+    directions: @recipe.directions_list,
+    prep_time: @recipe.friendly_prep_time,
+  },
 }
