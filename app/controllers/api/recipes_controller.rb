@@ -18,9 +18,13 @@ class Api::RecipesController < ApplicationController
       prep_time: params["prep_time"],
       ingredients: params["ingredients"],
       directions: params["directions"],
+      user_id: current_user.id, # get the user id from the jwt somehow
     )
-    @recipe.save
-    render "show.json.jb"
+    if @recipe.save
+      render "show.json.jb"
+    else
+      render json: { errors: @recipe.errors.full_messages }, status: 422
+    end
   end
 
   def show
