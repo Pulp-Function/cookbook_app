@@ -18,6 +18,7 @@ class Api::RecipesController < ApplicationController
       prep_time: params["prep_time"],
       ingredients: params["ingredients"],
       directions: params["directions"],
+      image_url: params["image_url"],
       user_id: current_user.id, # get the user id from the jwt somehow
     )
     if @recipe.save
@@ -39,6 +40,7 @@ class Api::RecipesController < ApplicationController
     @recipe.prep_time = params["prep_time"] || @recipe.prep_time
     @recipe.ingredients = params["ingredients"] || @recipe.ingredients
     @recipe.directions = params["directions"] || @recipe.directions
+    @recipe.image_url = params["image_url"] || @recipe.image_url
     @recipe.save
     render "show.json.jb"
   end
