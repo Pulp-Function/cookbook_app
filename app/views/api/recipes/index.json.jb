@@ -6,5 +6,7 @@
     prep_time: recipe.prep_time,
     ingredients: recipe.ingredients,
     directions: recipe.directions,
+    image_url: recipe.image_url,
+    is_owner: current_user && current_user.id == recipe.user_id,
   }
 end
