@@ -18,6 +18,58 @@ RSpec.describe "Recipes", type: :request do
     end
   end
 
+  describe "POST /recipes" do
+    it "creates a recipe and returns the data" do
+      user = User.create!(name: "Peter", email: "peter@test.com", password: "password")
+      jwt = JWT.encode(
+        { user_id: user.id, exp: 24.hours.from_now.to_i },
+        Rails.application.credentials.fetch(:secret_key_base),
+        "HS256"
+      )
+
+      post "/api/recipes",
+           params: {
+             title: "New title",
+             chef: "New chef",
+             prep_time: 1,
+             ingredients: "New ingredients",
+             directions: "New directions",
+             image_url: "test.jpg",
+           },
+           headers: {
+             "Authorization" => "Bearer #{jwt}",
+           }
+      recipe = JSON.parse(response.body)
+
+      expect(response).to have_http_status(200)
+      expect(recipe["title"]).to eq("New title")
+    end
+
+    it "creates prevents saving a recipe with invalid data" do
+      user = User.create!(name: "Peter", email: "peter@test.com", password: "password")
+      jwt = JWT.encode(
+        { user_id: user.id, exp: 24.hours.from_now.to_i },
+        Rails.application.credentials.fetch(:secret_key_base),
+        "HS256"
+      )
+
+      post "/api/recipes",
+           params: {
+             chef: "New chef",
+             prep_time: 1,
+             ingredients: "New ingredients",
+             directions: "New directions",
+             image_url: "test.jpg",
+           },
+           headers: {
+             "Authorization" => "Bearer #{jwt}",
+           }
+      recipe = JSON.parse(response.body)
+
+      expect(response).to have_http_status(422)
+    end
+  end
+
   describe "GET /recipes/:id" do
     it "should return a hash with the appropriate attributes" do
       user = User.create!(name: "Peter", email: "peter@test.com", password: "password")
