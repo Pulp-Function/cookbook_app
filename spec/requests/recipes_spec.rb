@@ -17,4 +17,22 @@ RSpec.describe "Recipes", type: :request do
       expect(recipes.length).to eq(3)
     end
   end
+
+  describe "GET /recipes/:id" do
+    it "should return a hash with the appropriate attributes" do
+      user = User.create!(name: "Peter", email: "peter@test.com", password: "password")
+      recipe = Recipe.create!({ user_id: user.id, title: "Raw Eggs", chef: "Laura Parsley", ingredients: "Chicken", directions: "Squeeze the chicken", image_url: "http://swansonhealthcenter.com/wp-content/uploads/2011/07/Egg.jpg", prep_time: 1 })
+
+      get "/api/recipes/#{recipe.id}"
+      recipe = JSON.parse(response.body)
+
+      expect(response).to have_http_status(200)
+      expect(recipe["title"]).to eq("Raw Eggs")
+      expect(recipe["chef"]).to eq("Laura Parsley")
+      expect(recipe["ingredients"]).to eq("Chicken")
+      expect(recipe["directions"]).to eq("Squeeze the chicken")
+      expect(recipe["image_url"]).to eq("http://swansonhealthcenter.com/wp-content/uploads/2011/07/Egg.jpg")
+      expect(recipe["prep_time"]).to eq(1)
+    end
+  end
 end
