@@ -68,6 +68,13 @@ RSpec.describe "Recipes", type: :request do
 
       expect(response).to have_http_status(422)
     end
+
+    it "should be unauthorized without a valid jwt" do
+      post "/api/recipes", params: {}
+      recipe = JSON.parse(response.body)
+
+      expect(response).to have_http_status(401)
+    end
   end
 
   describe "GET /recipes/:id" do
