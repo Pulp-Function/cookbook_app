@@ -14,13 +14,16 @@ class Api::RecipesController < ApplicationController
   end
 
   def create
+    response = Cloudinary::Uploader.upload(params[:image], resource_type: :auto)
+    cloudinary_url = response["secure_url"]
+
     @recipe = Recipe.new(
       title: params["title"],
       chef: params["chef"],
       prep_time: params["prep_time"],
       ingredients: params["ingredients"],
       directions: params["directions"],
-      image_url: params["image_url"],
+      image_url: cloudinary_url,
       user_id: current_user.id, # get the user id from the jwt somehow
     )
     if @recipe.save
